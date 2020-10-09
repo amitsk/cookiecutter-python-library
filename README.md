@@ -1,12 +1,13 @@
-# {{cookiecutter.project_slug}}
+# Simple Python Cookiecutter template
 
 A simpler version of https://github.com/audreyfeldroy/cookiecutter-pypackage. Uses pipenv for dependency management.
 
-- PIpenv for dependency management
+- Pipenv for dependency management
+- Pytest for unit tests
+- mypy, pyflakes, pytype for linting
 
-## Building
+## Generatting Project
 
 - Install python3
-- Install pipenv
-- Run `pipenv install --dev && pipenv shell`
-- Tests `pipenv run test`
+- Install [cookiecutter](https://github.com/cookiecutter/cookiecutter/blob/1.7.2/docs/index.rst)
+- Run `cookiecutter https://github.com/amitsk/cookiecutter-python-library`
