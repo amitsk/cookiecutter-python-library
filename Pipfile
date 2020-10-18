@@ -9,6 +9,6 @@ verify_ssl = true
 [packages]
 
 [requires]
-python_version = "3.8"
+python_version = "{{cookiecutter.python_version}}"
 
 

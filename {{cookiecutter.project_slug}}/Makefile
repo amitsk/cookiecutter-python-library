@@ -40,8 +40,8 @@ clean-test: ## remove test and coverage artifacts
 	rm -fr .pytest_cache
 
 lint: ## Check code with pyflakes and mypy ( errors ignored)
-	@$(PIPENV) run pyflakes {{ cookiecutter.project_module }}
-	-@$(PIPENV) run mypy  {{ cookiecutter.project_module }}
+	@$(PIPENV) run pyflakes {{cookiecutter.project_module}}
+	-@$(PIPENV) run mypy  {{cookiecutter.project_module}}
 
 test: ## run tests quickly with the default Python
 	@$(PIPENV) run python -m pytest --cov . --cov-report term-missing --cov-fail-under $(CODE_COVERAGE)  tests/ -v
