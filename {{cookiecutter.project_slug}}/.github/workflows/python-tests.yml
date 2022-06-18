@@ -17,7 +17,7 @@ jobs:
           python-version: "{{cookiecutter.python_version}}"
       - name: Install dependencies
         run: |
-          make dev
+          make install
       - name: Run Lint
         run: |
           make lint
