@@ -5,6 +5,6 @@
     "project_slug": "{{ cookiecutter.project_name.lower().replace(' ', '-') }}",
     "project_module": "{{ cookiecutter.project_name.lower().replace(' ', '_').replace('-', '_') }}",
     "version": "0.1.0",
-    "python_version": "3.8",
-    "year": "2020"
+    "python_version": "3.11",
+    "year": "2022"
 }

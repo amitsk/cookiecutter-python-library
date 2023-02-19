@@ -1,0 +1,85 @@
+[tool]
+[tool.pdm]
+allow_prereleases = true
+
+[[tool.pdm.source]]
+name = "pypi"
+url = "https://pypi.org/simple"
+verify_ssl = true
+
+[tool.pdm.dev-dependencies]
+dev = [
+    "black",
+    "pytest",
+    "pytest-datadir",
+    "pytest-cov",
+    "pytest-html",
+    "pytest-mock",
+    "pytest-faker",
+    "pytest-print",
+    "mypy>=1.0.1",
+    "ruff",
+]
+
+[project]
+# PEP 621 project metadata
+# See https://www.python.org/dev/peps/pep-0621/
+requires-python = ">={{cookiecutter.python_version}}"
+dependencies = [
+    "loguru",
+]
+
+[build-system]
+requires = ["pdm-pep517>=1.0.0"]
+build-backend = "pdm.pep517.api"
+
+[tool.pdm.scripts]
+test="env PYTHONPATH=.:$PYTHONPATH pytest --cov={{ cookiecutter.project_module }} tests/ --print"
+
+
+[tool.ruff]
+select = ["A", "B","C4","COM", "DTZ","ISC","E", "F", "FBT", "N", "PIE", "S", "RET", "T20"]
+
+unfixable = ["B"]
+
+# Exclude a variety of commonly ignored directories.
+exclude = [
+    ".direnv",
+    ".eggs",
+    ".git",
+    ".mypy_cache",
+    ".pytype",
+    ".ruff_cache",
+    ".venv",
+    "__pypackages__",
+    "_build",
+    "build",
+    "venv",
+    "tests"
+]
+
+
+# Same as Black.
+line-length = 88
+
+
+[tool.ruff.mccabe]
+# Unlike Flake8, default to a complexity level of 10.
+max-complexity = 10
+
+[tool.ruff.per-file-ignores]
+"__init__.py" = ["E402"]
+
+[tool.mypy]
+python_version = "{{ cookiecutter.python_version }}"
+warn_unused_configs = true
+disallow_untyped_defs = true
+disallow_incomplete_defs = true
+warn_return_any = true
+warn_unreachable = true
+namespace_packages = true
+ignore_missing_imports = true
+mypy_path="{{ cookiecutter.project_module }}"
+
+[mypy-pytest]
+ignore_missing_imports = true

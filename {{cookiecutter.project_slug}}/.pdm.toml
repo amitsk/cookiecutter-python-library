@@ -1,0 +1,2 @@
+[python]
+path = "/home/amit/projects/python/{{ cookiecutter.project_slug }}/.venv/bin/python"

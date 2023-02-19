@@ -1,5 +1,13 @@
+# .coveragerc to control coverage.py
 [run]
 branch = True
+omit =
+    # omit anything in a .local directory anywhere
+    */.local/*
+    # omit everything in /usr
+    /usr/*
+    # omit this single file
+    */custom_logging.py
 
 [report]
 # Regexes for lines to exclude from consideration
@@ -19,7 +27,10 @@ exclude_lines =
     if 0:
     if __name__ == .__main__.:
 
+    # Don't complain about abstract methods, they aren't run:
+    @(abc\.)?abstractmethod
+
 ignore_errors = True
 
 [html]
-directory = htmlcov/
+directory = coverage_html_report

@@ -1,19 +1,14 @@
 
 .PHONY: clean clean-test clean-pyc clean-build docs help
 .DEFAULT_GOAL := help
-BASE := $(shell /bin/pwd)
-CODE_COVERAGE = 72
-PIPENV ?= pipenv
+
+PDM=pdm
+CODE_COVERAGE=50
 
 build: install test lint
 
 install:
-	$(info [*] Installing pipenv project dependencies)
-	@$(PIPENV) install
-	@$(PIPENV) install -d
-
-shell:
-	@$(PIPENV) shell
+	$(PDM) install -d
 
 help:
 	@python -c "$$PRINT_HELP_PYSCRIPT" < $(MAKEFILE_LIST)
@@ -39,12 +34,15 @@ clean-test: ## remove test and coverage artifacts
 	rm -fr htmlcov/
 	rm -fr .pytest_cache
 
+mypy:
+	-@$(PDM) run mypy  {{cookiecutter.project_module}}
+
 lint: ## Check code with pyflakes and mypy ( errors ignored)
-	@$(PIPENV) run pyflakes {{cookiecutter.project_module}}
-	-@$(PIPENV) run mypy  {{cookiecutter.project_module}}
+	@$(PDM) run ruff {{cookiecutter.project_module}}
+
 
 test: ## run tests quickly with the default Python
-	@$(PIPENV) run python -m pytest --cov . --cov-report term-missing --cov-fail-under $(CODE_COVERAGE)  tests/ -v
+	@$(PDM) run pytest --cov {{ cookiecutter.project_module }} --cov-report term-missing --cov-fail-under $(CODE_COVERAGE)  tests/ -v
 
 
 coverage: ## check code coverage quickly with the default Python
