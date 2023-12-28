@@ -150,3 +150,5 @@ atlassian-ide-plugin.xml
 
 #Ruff
 .ruff_cache/
+
+./python-boilerplate

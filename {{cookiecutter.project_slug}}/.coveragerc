@@ -6,8 +6,10 @@ omit =
     */.local/*
     # omit everything in /usr
     /usr/*
-    # omit this single file
-    */custom_logging.py
+    # ignore tests
+    tests/*
+    
+    
 
 [report]
 # Regexes for lines to exclude from consideration
