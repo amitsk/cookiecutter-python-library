@@ -1,10 +1,10 @@
 {
-    "email": "test@test.com",
-    "full_name": "Developer",
-    "project_name": "Python Boilerplate",
-    "project_slug": "{{ cookiecutter.project_name.lower().replace(' ', '-') }}",
-    "project_module": "{{ cookiecutter.project_name.lower().replace(' ', '_').replace('-', '_') }}",
-    "version": "0.1.0",
-    "python_version": "3.11",
-    "year": "2022"
+  "email": "test@test.com",
+  "full_name": "Developer",
+  "project_name": "Python Boilerplate",
+  "project_slug": "{{ cookiecutter.project_name.lower().replace(' ', '-') }}",
+  "pkg_name": "{{ cookiecutter.project_slug.lower().replace(' ', '_').replace('-', '_') }}",
+  "version": "0.1.0",
+  "python_version": "3.12",
+  "year": "2024"
 }

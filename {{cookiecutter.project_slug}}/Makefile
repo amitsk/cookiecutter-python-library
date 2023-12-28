@@ -35,19 +35,23 @@ clean-test: ## remove test and coverage artifacts
 	rm -fr .pytest_cache
 
 mypy:
-	-@$(PDM) run mypy  {{cookiecutter.project_module}}
+	-@$(PDM) run mypy  src/{{cookiecutter.pkg_name}}
 
 lint: ## Check code with pyflakes and mypy ( errors ignored)
-	@$(PDM) run ruff {{cookiecutter.project_module}}
+	@$(PDM) run ruff src/{{cookiecutter.pkg_name}}
 
 
 test: ## run tests quickly with the default Python
-	@$(PDM) run pytest --cov {{ cookiecutter.project_module }} --cov-report term-missing --cov-fail-under $(CODE_COVERAGE)  tests/ -v
+	@$(PDM) run pytest --cov src/{{cookiecutter.pkg_name}} --cov-report term-missing --cov-fail-under $(CODE_COVERAGE)  tests/ -v
 
 
 coverage: ## check code coverage quickly with the default Python
-	coverage run --source {{ cookiecutter.project_module }} -m pytest
+	coverage run --source src/{{cookiecutter.pkg_name}} -m pytest
 	coverage report -m
 	coverage html
 
+check: check_format lint test
 
+check_format:
+	$(info [*] Running format checkers...)
+	@$(PDM) run python -m black --check .
