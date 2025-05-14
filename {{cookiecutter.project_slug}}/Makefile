@@ -2,13 +2,13 @@
 .PHONY: clean clean-test clean-pyc clean-build docs help
 .DEFAULT_GOAL := help
 
-PDM=pdm
+UV=uv
 CODE_COVERAGE=50
 
-build: install test lint
+build: install  lint type_check test
 
 install:
-	$(PDM) install -d
+	$(UV) sync --dev
 
 help:
 	@python -c "$$PRINT_HELP_PYSCRIPT" < $(MAKEFILE_LIST)
@@ -34,15 +34,15 @@ clean-test: ## remove test and coverage artifacts
 	rm -fr htmlcov/
 	rm -fr .pytest_cache
 
-mypy:
-	-@$(PDM) run mypy  src/{{cookiecutter.pkg_name}}
+type_check: ## Check type hints with ty
+	-@$(UV) run ty check  src/{{cookiecutter.pkg_name}}
 
 lint: ## Check code with pyflakes and mypy ( errors ignored)
-	@$(PDM) run ruff src/{{cookiecutter.pkg_name}}
+	@$(UV) run ruff check src/{{cookiecutter.pkg_name}}
 
 
 test: ## run tests quickly with the default Python
-	@$(PDM) run pytest --cov src/{{cookiecutter.pkg_name}} --cov-report term-missing --cov-fail-under $(CODE_COVERAGE)  tests/ -v
+	@$(UV) run pytest --cov src/{{cookiecutter.pkg_name}} --cov-report term-missing --cov-fail-under $(CODE_COVERAGE)  tests/ -v
 
 
 coverage: ## check code coverage quickly with the default Python
@@ -53,5 +53,5 @@ coverage: ## check code coverage quickly with the default Python
 check: check_format lint test
 
 check_format:
-	$(info [*] Running format checkers...)
-	@$(PDM) run python -m black --check .
+	$(info [*] Running ruff format checkers...)
+	@$(UV) run ruff format --check .
