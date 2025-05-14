@@ -2,13 +2,15 @@
 
 ![Run Tests and Lint](https://github.com/{{cookiecutter.project_slug}}/workflows/Run%20Tests%20and%20Lint/badge.svg)
 
-- PDM for dependency management
+- uv for dependency management
+- Pytest for tests
+- ruff for formatting and linting
+- ty for type checking
 
 
 ## Building
 
-- Install Python3.11
-- Install pdm https://pdm.fming.dev/latest/
+- Install uv https://docs.astral.sh/uv/getting-started/installation/
 - Clone from GitHub
-- Build - Install, test, lint `make build`
+- Build - Install, test, lint `make build`. This step pulls the python version defined in pyproject.toml
 - Tests can be run with `make test`
