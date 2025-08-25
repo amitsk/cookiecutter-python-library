@@ -54,4 +54,8 @@ check: check_format lint test
 
 check_format:
 	$(info [*] Running ruff format checkers...)
-	@$(UV) run ruff format --check .
+	@$(UV) run ruff format --check src/
+
+fix_format:
+	$(info [*] Running ruff format fixers...)
+	@$(UV) run ruff format  src/

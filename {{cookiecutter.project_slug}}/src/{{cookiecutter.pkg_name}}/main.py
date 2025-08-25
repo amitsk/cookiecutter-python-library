@@ -1,8 +1,9 @@
-from {{cookiecutter.pkg_name}} import app
+from {{cookiecutter.pkg_name}}.app  import scrabble_score
+from loguru import logger
 
 
 def main() -> None:
-    app.hello_world()
+    logger.info(scrabble_score("hello"))
 
 
 if __name__ == "__main__":

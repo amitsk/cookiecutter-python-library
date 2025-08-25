@@ -2,13 +2,16 @@
 name = "{{ cookiecutter.project_slug }}"
 description = "A short description of the project"
 readme = "README.md"
-readme-content-type = "text/markdown"
 license = { text = "MIT" }
 authors = [{ name = "{{ cookiecutter.full_name }}" }]
 keywords = ["{{ cookiecutter.project_slug }}", "example", "template"]
 requires-python = ">={{cookiecutter.python_version}}"
-dependencies = ["loguru"]
 version = "{{cookiecutter.version}}"
+
+dependencies = [
+    "loguru",
+    "more-itertools>=10.7.0",
+]
 
 
 [build-system]
