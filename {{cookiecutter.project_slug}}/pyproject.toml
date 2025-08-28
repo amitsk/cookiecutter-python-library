@@ -31,6 +31,18 @@ dev-dependencies = [
     "ty"
 ]
 
+{% if cookiecutter.use_analytics == "y" -%}
+[project.optional-dependencies]
+analytics = [
+    "jupyter",
+    "pandas",
+    "matplotlib",
+    "seaborn",
+    "plotly",
+    "ipykernel"
+]
+{% endif %}
+
 
 [tool.ruff]
 # https://beta.ruff.rs/docs/rules/

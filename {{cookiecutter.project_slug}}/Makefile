@@ -59,3 +59,17 @@ check_format:
 fix_format:
 	$(info [*] Running ruff format fixers...)
 	@$(UV) run ruff format  src/
+
+{% if cookiecutter.use_analytics == "y" -%}
+install-analytics: ## Install analytics dependencies
+	$(info [*] Installing analytics dependencies...)
+	@$(UV) sync --extra analytics
+
+jupyter: install-analytics ## Start Jupyter Lab
+	$(info [*] Starting Jupyter Lab...)
+	@$(UV) run --extra analytics jupyter lab
+
+notebook: install-analytics ## Start Jupyter Notebook
+	$(info [*] Starting Jupyter Notebook...)
+	@$(UV) run --extra analytics jupyter notebook
+{% endif %}
