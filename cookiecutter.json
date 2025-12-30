@@ -5,7 +5,7 @@
   "project_slug": "{{ cookiecutter.project_name.lower().replace(' ', '-') }}",
   "pkg_name": "{{ cookiecutter.project_slug.lower().replace(' ', '_').replace('-', '_') }}",
   "version": "0.1.0",
-  "python_version": "3.13",
+  "python_version": "3.14",
   "year": "2025",
   "use_analytics": ["y", "n"]
 }
