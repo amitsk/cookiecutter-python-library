@@ -6,8 +6,8 @@ from  {{cookiecutter.pkg_name}}.main import main
 class TestMain:
     """Test cases for the main module."""
 
-    @patch('python_boilerplate.main.logger')
-    @patch('python_boilerplate.main.scrabble_score')
+    @patch('{{cookiecutter.pkg_name}}.main.logger')
+    @patch('{{cookiecutter.pkg_name}}.main.scrabble_score')
     def test_main_function_calls_scrabble_score_and_logs_result(self, mock_scrabble_score, mock_logger):
         """Test that main() calls scrabble_score with 'hello' and logs the result."""
         # Arrange
@@ -21,8 +21,8 @@ class TestMain:
         mock_scrabble_score.assert_called_once_with("hello")
         mock_logger.info.assert_called_once_with(expected_score)
 
-    @patch('python_boilerplate.main.logger')
-    @patch('python_boilerplate.main.scrabble_score')
+    @patch('{{cookiecutter.pkg_name}}.main.logger')
+    @patch('{{cookiecutter.pkg_name}}.main.scrabble_score')
     def test_main_function_with_different_scrabble_score(self, mock_scrabble_score, mock_logger):
         """Test that main() works correctly with different scrabble score values."""
         # Arrange
@@ -36,8 +36,8 @@ class TestMain:
         mock_scrabble_score.assert_called_once_with("hello")
         mock_logger.info.assert_called_once_with(expected_score)
 
-    @patch('python_boilerplate.main.logger')
-    @patch('python_boilerplate.main.scrabble_score')
+    @patch('{{cookiecutter.pkg_name}}.main.logger')
+    @patch('{{cookiecutter.pkg_name}}.main.scrabble_score')
     def test_main_function_handles_zero_score(self, mock_scrabble_score, mock_logger):
         """Test that main() correctly handles when scrabble_score returns 0."""
         # Arrange
@@ -51,8 +51,8 @@ class TestMain:
         mock_scrabble_score.assert_called_once_with("hello")
         mock_logger.info.assert_called_once_with(expected_score)
 
-    @patch('python_boilerplate.main.logger')
-    @patch('python_boilerplate.main.scrabble_score')
+    @patch('{{cookiecutter.pkg_name}}.main.logger')
+    @patch('{{cookiecutter.pkg_name}}.main.scrabble_score')
     def test_main_function_exception_handling(self, mock_scrabble_score, mock_logger):
         """Test that main() properly propagates exceptions from scrabble_score."""
         # Arrange
@@ -68,12 +68,12 @@ class TestMain:
 
     def test_main_function_return_value(self):
         """Test that main() returns None."""
-        with patch('python_boilerplate.main.logger'), \
-             patch('python_boilerplate.main.scrabble_score', return_value=8):
+        with patch('{{cookiecutter.pkg_name}}.main.logger'), \
+             patch('{{cookiecutter.pkg_name}}.main.scrabble_score', return_value=8):
             result = main()
             assert result is None
 
-    @patch('python_boilerplate.main.logger')
+    @patch('{{cookiecutter.pkg_name}}.main.logger')
     def test_main_function_integration_with_real_scrabble_score(self, mock_logger):
         """Integration test using the real scrabble_score function."""
         # Act
