@@ -1,0 +1,31 @@
+name: Test Template
+
+on:
+  push:
+  pull_request:
+
+jobs:
+  generate-and-build:
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        use_analytics: ["y", "n"]
+
+    steps:
+      - uses: actions/checkout@v5
+      - name: Install uv
+        uses: astral-sh/setup-uv@v6
+        with:
+          enable-cache: true
+      - name: Generate project
+        run: uvx cookiecutter --no-input -o "$RUNNER_TEMP" . use_analytics=${{ matrix.use_analytics }}
+      - name: Build generated project
+        working-directory: ${{ runner.temp }}/python-boilerplate
+        run: |
+          make build check_format
+          uv build
+      - name: Check notebooks folder matches use_analytics
+        working-directory: ${{ runner.temp }}/python-boilerplate
+        run: |
+          if [ "${{ matrix.use_analytics }}" = "y" ]; then test -d notebooks; else test ! -e notebooks; fi

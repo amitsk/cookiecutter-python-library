@@ -8,7 +8,7 @@ This template provides a complete Python library setup with:
 
 ### 📦 Modern Dependency Management
 - **[uv](https://docs.astral.sh/uv/)** - Ultra-fast Python package installer and resolver
-- **pyproject.toml** configuration following PEP 621 standards
+- **pyproject.toml** configuration following PEP 621, with PEP 735 dependency groups and a PEP 639 license expression
 - Automatic virtual environment management
 
 ### 🧪 Testing & Quality Assurance
@@ -16,11 +16,12 @@ This template provides a complete Python library setup with:
   - `pytest-cov` - Code coverage reporting
   - `pytest-html` - HTML test reports
   - `pytest-mock` - Mock fixtures
-  - `pytest-faker` - Fake data generation
+  - `faker` - Fake data generation (ships its own `faker` pytest fixture)
   - `pytest-datadir` - Test data directory management
   - `pytest-print` - Enhanced print debugging
 - **[ruff](https://github.com/astral-sh/ruff)** - Extremely fast Python linter and formatter
-- **[ty](https://github.com/brownben/ty)** - Type checking with mypy
+- **[ty](https://github.com/astral-sh/ty)** - Extremely fast type checker from Astral
+- **[pre-commit](https://pre-commit.com/)** - Runs ruff and basic file checks before every commit
 
 ### 📊 Optional Analytics Features
 - **[Jupyter](https://jupyter.org/)** - Interactive notebook environment for data exploration
@@ -31,7 +32,7 @@ This template provides a complete Python library setup with:
 - **IPykernel** - Jupyter kernel support for Python
 
 ### 🏗️ Build System
-- **Hatchling** build backend for modern Python packaging
+- **Hatchling** build backend (`uv build` produces sdist and wheel) for modern Python packaging
 - **Makefile** with common development tasks
 - Automated clean-up commands for build artifacts
 
@@ -43,6 +44,7 @@ your-project/
 ├── src/
 │   └── your_package/
 │       ├── __init__.py
+│       ├── py.typed        # PEP 561 marker: ships type hints
 │       ├── app.py          # Example application code
 │       └── main.py         # Entry point
 ├── tests/
@@ -52,9 +54,11 @@ your-project/
 │       └── test_main.py    # Main module tests
 ├── notebooks/              # Analytics notebooks (if enabled)
 │   └── analysis_example.ipynb
+├── .github/workflows/  # CI: lint, type check, test via uv
 ├── pyproject.toml          # Project configuration
 ├── Makefile               # Development commands
-├── conftest.py            # Root test configuration
+├── .pre-commit-config.yaml # ruff + file hygiene hooks
+├── LICENSE                # MIT, with your name and year
 └── README.md              # Project documentation
 ```
 
@@ -65,26 +69,27 @@ When you run the cookiecutter, you'll be prompted for the following variables:
 | Variable | Description | Default | Example |
 |----------|-------------|---------|---------|
 | `full_name` | Your full name | "Developer" | "John Doe" |
+| `github_username` | GitHub user/org (used for the CI badge) | "your-github-username" | "johndoe" |
 | `email` | Your email address | "test@test.com" | "john@example.com" |
 | `project_name` | Human-readable project name | "Python Boilerplate" | "My Awesome Library" |
 | `project_slug` | URL/package-friendly name | Auto-generated | "my-awesome-library" |
 | `pkg_name` | Python package name | Auto-generated | "my_awesome_library" |
 | `version` | Initial version | "0.1.0" | "0.1.0" |
-| `python_version` | Minimum Python version | "3.13" | "3.13" |
-| `year` | Copyright year | "2025" | "2025" |
+| `python_version` | Minimum Python version | "3.14" | "3.14" |
+| `year` | Copyright year (used in LICENSE) | Current year | "2026" |
 | `use_analytics` | Include analytics dependencies | "y" or "n" | "y" |
 
 ## 🛠️ Getting Started
 
 ### Prerequisites
 
-1. **Python 3.13+** - [Download Python](https://www.python.org/downloads/)
+1. **Python 3.14+** (uv can install it for you: `uv python install 3.14`) - [Download Python](https://www.python.org/downloads/)
 2. **uv** - Install from [official docs](https://docs.astral.sh/uv/getting-started/installation/)
 3. **Cookiecutter** - Install with:
    ```bash
-   pip install cookiecutter
-   # or
    uv tool install cookiecutter
+   # or run it without installing
+   uvx cookiecutter gh:amitsk/cookiecutter-python-library
    ```
 
 ### Creating a New Project
@@ -101,12 +106,14 @@ When you run the cookiecutter, you'll be prompted for the following variables:
 
 3. Set up the development environment:
    ```bash
+   git init
    make install
+   uv run pre-commit install
    ```
 
 4. Run the example code:
    ```bash
-   uv run python src/your_package/main.py
+   uv run python -m your_package.main
    ```
 
 ## 🔧 Development Workflow
@@ -132,8 +139,9 @@ make type_check
 # Clean up build artifacts
 make clean
 
-# Format code
+# Format code (or check formatting)
 make format
+make check_format
 
 # Analytics commands (if analytics is enabled)
 make install-analytics  # Install analytics dependencies
@@ -221,8 +229,9 @@ The template includes a sample Scrabble score calculator to demonstrate:
   - And many more...
 
 - **Pytest configuration** with sensible defaults
-- **Type checking** with ty/mypy integration
-- **Coverage reporting** with configurable thresholds
+- **Type checking** with ty
+- **Coverage reporting** with configurable thresholds (configured in `pyproject.toml`)
+- **Tests are linted too**, with relaxed rules for asserts, annotations and magic values
 
 ## 🤝 Contributing
 
@@ -234,5 +243,9 @@ This template is designed to be a starting point for Python libraries. Feel free
 
 ## 📄 License
 
-Projects generated from this template are created with MIT license by default. You can modify this in the generated `pyproject.toml` file.
+Projects generated from this template include an MIT `LICENSE` file. To change it, replace `LICENSE` and update `license` in `pyproject.toml`.
+
+## 🧪 Testing the Template
+
+This repo's CI (`.github/workflows/template-ci.yml`) generates a project with and without analytics, then runs `make build`, `make check_format` and `uv build` on each.
 

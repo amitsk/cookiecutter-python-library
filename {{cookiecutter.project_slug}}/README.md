@@ -1,11 +1,12 @@
 # {{cookiecutter.project_slug}}
 
-![Run Tests and Lint](https://github.com/{{cookiecutter.project_slug}}/workflows/Run%20Tests%20and%20Lint/badge.svg)
+![Run Tests and Lint](https://github.com/{{cookiecutter.github_username}}/{{cookiecutter.project_slug}}/actions/workflows/python-tests.yml/badge.svg)
 
 - uv for dependency management
 - Pytest for tests
 - ruff for formatting and linting
 - ty for type checking
+- pre-commit hooks (`uv run pre-commit install`)
 {% if cookiecutter.use_analytics == "y" -%}
 - Jupyter, Pandas, Matplotlib, Seaborn, Plotly for data analytics
 {% endif %}
@@ -16,8 +17,8 @@
 - Clone from GitHub
 - Build - Install, test, lint `make build`. This step pulls the python version defined in pyproject.toml
 - Tests can be run with `make test`
+{%- if cookiecutter.use_analytics == "y" %}
 
-{% if cookiecutter.use_analytics == "y" -%}
 ## Analytics Features
 
 This project includes optional analytics dependencies for data analysis and visualization:
@@ -68,4 +69,4 @@ from {{cookiecutter.pkg_name}}.app import scrabble_score
 
 # Your analytics code here
 ```
-{% endif %}
+{%- endif %}

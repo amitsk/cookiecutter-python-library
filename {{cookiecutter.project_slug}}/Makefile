@@ -1,17 +1,17 @@
 
-.PHONY: clean clean-test clean-pyc clean-build docs help
+.PHONY: build install help clean clean-test clean-pyc clean-build type_check lint test coverage check check_format fix_format format
 .DEFAULT_GOAL := help
 
 UV=uv
 CODE_COVERAGE=50
 
-build: install  lint type_check test
+build: install lint type_check test ## install, lint, type check and test
 
-install:
+install: ## install the package and dev dependencies
 	$(UV) sync --dev
 
-help:
-	@python -c "$$PRINT_HELP_PYSCRIPT" < $(MAKEFILE_LIST)
+help: ## show this help
+	@grep -E '^[a-zA-Z_-]+:.*?## .*$$' $(MAKEFILE_LIST) | awk 'BEGIN {FS = ":.*?## "}; {printf "\033[36m%-20s\033[0m %s\n", $$1, $$2}'
 
 clean: clean-build clean-pyc clean-test ## remove all build, test, coverage and Python artifacts
 
@@ -31,14 +31,14 @@ clean-pyc: ## remove Python file artifacts
 clean-test: ## remove test and coverage artifacts
 	rm -fr .tox/
 	rm -f .coverage
-	rm -fr htmlcov/
+	rm -fr htmlcov/ coverage_html_report/
 	rm -fr .pytest_cache
 
 type_check: ## Check type hints with ty
-	-@$(UV) run ty check  src/{{cookiecutter.pkg_name}}
+	@$(UV) run ty check src/{{cookiecutter.pkg_name}}
 
-lint: ## Check code with pyflakes and mypy ( errors ignored)
-	@$(UV) run ruff check src/{{cookiecutter.pkg_name}}
+lint: ## Check code with ruff
+	@$(UV) run ruff check src/ tests/
 
 
 test: ## run tests quickly with the default Python
@@ -46,21 +46,21 @@ test: ## run tests quickly with the default Python
 
 
 coverage: ## check code coverage quickly with the default Python
-	coverage run --source src/{{cookiecutter.pkg_name}} -m pytest
-	coverage report -m
-	coverage html
+	@$(UV) run pytest --cov src/{{cookiecutter.pkg_name}} --cov-report term-missing --cov-report html tests/
 
-check: check_format lint test
+check: check_format lint type_check test ## run all checks without installing
 
-check_format:
+check_format: ## check formatting with ruff
 	$(info [*] Running ruff format checkers...)
-	@$(UV) run ruff format --check src/
+	@$(UV) run ruff format --check src/ tests/
 
-fix_format:
+fix_format: ## format code with ruff
 	$(info [*] Running ruff format fixers...)
-	@$(UV) run ruff format  src/
+	@$(UV) run ruff format src/ tests/
 
-{% if cookiecutter.use_analytics == "y" -%}
+format: fix_format ## alias for fix_format
+{%- if cookiecutter.use_analytics == "y" %}
+
 install-analytics: ## Install analytics dependencies
 	$(info [*] Installing analytics dependencies...)
 	@$(UV) sync --extra analytics
@@ -72,4 +72,4 @@ jupyter: install-analytics ## Start Jupyter Lab
 notebook: install-analytics ## Start Jupyter Notebook
 	$(info [*] Starting Jupyter Notebook...)
 	@$(UV) run --extra analytics jupyter notebook
-{% endif %}
+{%- endif %}

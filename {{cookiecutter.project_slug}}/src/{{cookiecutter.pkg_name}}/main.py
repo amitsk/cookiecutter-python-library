@@ -1,4 +1,4 @@
-from {{cookiecutter.pkg_name}}.app  import scrabble_score
+from {{cookiecutter.pkg_name}}.app import scrabble_score
 from loguru import logger
 
 
