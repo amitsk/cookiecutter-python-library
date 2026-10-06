@@ -5,6 +5,7 @@ globs: ["src/**/*.py", "tests/**/*.py"]
 
 # Conventions
 
+- Verify with `make verify` (= `make check`) before declaring done.
 - Code lives in `src/{{cookiecutter.pkg_name}}/` with type hints; `py.typed` ships them (PEP 561). Keep `ty check src/{{cookiecutter.pkg_name}}` clean.
 - Tests live in `tests/{{cookiecutter.pkg_name}}/test_*.py`; plain `assert`, Arrange-Act-Assert, behavior-named tests.
 - ruff: line-length 88, `E501` ignored; `ANN` on public functions; `S`/`TRY`/`PL` enforced; tests relax `S101`, `ANN`, `PLR2004`.

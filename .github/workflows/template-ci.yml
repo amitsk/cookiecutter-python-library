@@ -40,6 +40,7 @@ jobs:
             test -f .cursor/rules/commands.mdc
             grep -q "make check" AGENTS.md
             grep -q "make check" .github/copilot-instructions.md
+            grep -q "make check" .cursor/rules/conventions.mdc
           else
             test ! -e AGENTS.md
             test ! -e CLAUDE.md
@@ -49,4 +50,5 @@ jobs:
       - name: Check no unrendered cookiecutter variables
         working-directory: ${{ runner.temp }}/python-boilerplate
         run: |
-          ! grep -rn 'cookiecutter' . --exclude-dir=.git --exclude-dir=__pycache__ | grep '{{' || exit 1
+          leftovers=$(grep -rn -E '\{\{|\{%' . --exclude-dir=.git --exclude-dir=__pycache__ | grep 'cookiecutter' || true)
+          if [ -n "$leftovers" ]; then echo "$leftovers"; exit 1; fi

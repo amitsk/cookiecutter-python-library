@@ -39,9 +39,9 @@ def remove_agent_files():
 
 def assert_no_unrendered_variables():
     """Fail if any Jinja variable survived rendering."""
-    # NOTE: built from chr(123) so cookiecutter's own Jinja rendering
-    # of this hook file does not choke on a literal double-open-brace.
-    open_braces = chr(123) * 2
+    # NOTE: sequences built from chr() so cookiecutter's own Jinja rendering
+    # of this hook file does not choke on literal tag openers.
+    openers = (chr(123) * 2, chr(123) + "%")
     leftovers = []
     for path in Path(".").rglob("*"):
         if ".git/" in str(path) or "__pycache__" in str(path):
@@ -51,7 +51,7 @@ def assert_no_unrendered_variables():
                 text = path.read_text(encoding="utf-8")
             except (UnicodeDecodeError, OSError):
                 continue
-            if open_braces in text and "cookiecutter" in text:
+            if "cookiecutter" in text and any(op in text for op in openers):
                 leftovers.append(str(path))
     if leftovers:
         print("Unrendered cookiecutter variables in:", file=sys.stderr)
