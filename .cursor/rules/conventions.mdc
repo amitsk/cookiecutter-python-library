@@ -1,0 +1,12 @@
+---
+description: Template-authoring conventions
+globs: ["cookiecutter.json", "hooks/*.py", "**/*.py", "**/*.mdc", "**/*.yml"]
+---
+
+# Conventions
+
+- All prompts in `cookiecutter.json`; `hooks/post_gen_project.py` only deletes + asserts, never generates.
+- No literal double-open-brace in hooks outside real `cookiecutter.*` variables (the hook file is itself Jinja-rendered — build the sequence from `chr(123)`).
+- Every template variable must render; post-gen hook fails generation on leftovers.
+- `AGENTS.md` canonical; `CLAUDE.md` pointer; Copilot/Cursor condensations must mention `make check`.
+- Mirror Makefile/lint-set changes into the templated `AGENTS.md`.

@@ -1,5 +1,5 @@
 
-.PHONY: build install help clean clean-test clean-pyc clean-build type_check lint test coverage check check_format fix_format format
+.PHONY: build install help clean clean-test clean-pyc clean-build type_check lint test coverage check verify check_format fix_format format
 .DEFAULT_GOAL := help
 
 UV=uv
@@ -49,6 +49,8 @@ coverage: ## check code coverage quickly with the default Python
 	@$(UV) run pytest --cov src/{{cookiecutter.pkg_name}} --cov-report term-missing --cov-report html tests/
 
 check: check_format lint type_check test ## run all checks without installing
+
+verify: check ## alias for check (single LLM entrypoint)
 
 check_format: ## check formatting with ruff
 	$(info [*] Running ruff format checkers...)

@@ -1,0 +1,20 @@
+---
+description: Build, verify, and test commands for {{cookiecutter.project_slug}}
+globs: ["Makefile", "pyproject.toml", "**/*.py"]
+---
+
+# Commands
+
+Single entrypoint: `make verify` (= `make check`: `check_format` + `lint` + `type_check` + `test`).
+
+- `make install` — `uv sync --dev`
+- `make build` — install, lint, type-check, test
+- `make verify` — all checks without installing (use before declaring done)
+- `make test` — pytest with coverage floor
+- `make lint` — `ruff check src/ tests/`
+- `make type_check` — `ty check src/{{cookiecutter.pkg_name}}`
+- `make check_format` / `make fix_format` — ruff format check / fix
+- `uv build` — sdist + wheel
+{% if cookiecutter.use_analytics == "y" -%}
+- `make install-analytics` / `make jupyter` — analytics extra + Jupyter Lab
+{% endif %}

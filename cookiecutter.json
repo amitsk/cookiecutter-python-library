@@ -8,5 +8,6 @@
   "version": "0.1.0",
   "python_version": "3.14",
   "year": "{% now 'utc', '%Y' %}",
-  "use_analytics": ["y", "n"]
+  "use_analytics": ["y", "n"],
+  "use_agent_instructions": ["y", "n"]
 }

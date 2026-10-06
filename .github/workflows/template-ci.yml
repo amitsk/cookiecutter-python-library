@@ -11,6 +11,7 @@ jobs:
       fail-fast: false
       matrix:
         use_analytics: ["y", "n"]
+        use_agent_instructions: ["y", "n"]
 
     steps:
       - uses: actions/checkout@v5
@@ -19,7 +20,7 @@ jobs:
         with:
           enable-cache: true
       - name: Generate project
-        run: uvx cookiecutter --no-input -o "$RUNNER_TEMP" . use_analytics=${{ matrix.use_analytics }}
+        run: uvx cookiecutter --no-input -o "$RUNNER_TEMP" . use_analytics=${{ matrix.use_analytics }} use_agent_instructions=${{ matrix.use_agent_instructions }}
       - name: Build generated project
         working-directory: ${{ runner.temp }}/python-boilerplate
         run: |
@@ -29,3 +30,25 @@ jobs:
         working-directory: ${{ runner.temp }}/python-boilerplate
         run: |
           if [ "${{ matrix.use_analytics }}" = "y" ]; then test -d notebooks; else test ! -e notebooks; fi
+      - name: Check agent files match use_agent_instructions
+        working-directory: ${{ runner.temp }}/python-boilerplate
+        run: |
+          if [ "${{ matrix.use_agent_instructions }}" = "y" ]; then
+            test -f AGENTS.md
+            test -f CLAUDE.md
+            test -f .github/copilot-instructions.md
+            test -f .cursor/rules/commands.mdc
+            grep -q "make check" AGENTS.md
+            grep -q "make check" .github/copilot-instructions.md
+            grep -q "make check" .cursor/rules/conventions.mdc
+          else
+            test ! -e AGENTS.md
+            test ! -e CLAUDE.md
+            test ! -e .cursor
+            test ! -e .github/copilot-instructions.md
+          fi
+      - name: Check no unrendered cookiecutter variables
+        working-directory: ${{ runner.temp }}/python-boilerplate
+        run: |
+          leftovers=$(grep -rn -E '\{\{|\{%' . --exclude-dir=.git --exclude-dir=__pycache__ | grep 'cookiecutter' || true)
+          if [ -n "$leftovers" ]; then echo "$leftovers"; exit 1; fi
