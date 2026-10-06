@@ -1,0 +1,11 @@
+---
+description: Render and check commands for the cookiecutter template
+globs: ["cookiecutter.json", "hooks/*.py", "**/Makefile", "**/*.toml", "**/*.md"]
+---
+
+# Commands
+
+- Render one combo: `uvx cookiecutter --no-input -o /tmp/opencode/out . use_analytics=y use_agent_instructions=y`
+- Render full matrix: `use_analytics` in `y n` × `use_agent_instructions` in `y n`
+- Check a rendered dir: `make build check_format` then `uv build`
+- Lint hooks: `uvx ruff check hooks/`
