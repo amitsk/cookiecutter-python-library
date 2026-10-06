@@ -1,0 +1,12 @@
+---
+description: Python conventions for {{cookiecutter.project_slug}}
+globs: ["src/**/*.py", "tests/**/*.py"]
+---
+
+# Conventions
+
+- Code lives in `src/{{cookiecutter.pkg_name}}/` with type hints; `py.typed` ships them (PEP 561). Keep `ty check src/{{cookiecutter.pkg_name}}` clean.
+- Tests live in `tests/{{cookiecutter.pkg_name}}/test_*.py`; plain `assert`, Arrange-Act-Assert, behavior-named tests.
+- ruff: line-length 88, `E501` ignored; `ANN` on public functions; `S`/`TRY`/`PL` enforced; tests relax `S101`, `ANN`, `PLR2004`.
+- Entry points stay thin: logic in `app.py`, `main.py` wires + logs (loguru).
+- Never commit secrets/`.env`; ask before license, `requires-python`, or public API changes.
