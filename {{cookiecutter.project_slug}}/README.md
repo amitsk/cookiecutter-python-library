@@ -10,6 +10,18 @@
 {% if cookiecutter.use_analytics == "y" -%}
 - Jupyter, Pandas, Matplotlib, Seaborn, Plotly for data analytics
 {% endif %}
+{% if cookiecutter.use_agent_instructions == "y" -%}
+- Agent instructions (`AGENTS.md` canonical, `CLAUDE.md`, copilot, cursor) with `make verify` entrypoint
+{% endif %}
+
+{% if cookiecutter.use_agent_instructions == "y" -%}
+## Agent Instructions
+
+This repo is LLM-ready: `AGENTS.md` is the canonical contract
+(stack, `make verify`, conventions, boundaries). `CLAUDE.md`,
+`.github/copilot-instructions.md`, `.cursor/rules/` mirror it for
+specific tools. Run `make verify` before declaring work done.
+{% endif %}
 
 ## Building
 

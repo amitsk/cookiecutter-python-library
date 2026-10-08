@@ -59,7 +59,11 @@ your-project/
 ├── Makefile               # Development commands
 ├── .pre-commit-config.yaml # ruff + file hygiene hooks
 ├── LICENSE                # MIT, with your name and year
-└── README.md              # Project documentation
+├── README.md              # Project documentation
+├── AGENTS.md              # LLM contract (if enabled)
+├── CLAUDE.md              # Claude pointer (if enabled)
+├── .github/copilot-instructions.md  # Copilot condensation (if enabled)
+├── .cursor/rules/         # Cursor rules (if enabled)
 ```
 
 ## 🎯 Template Variables
@@ -78,6 +82,21 @@ When you run the cookiecutter, you'll be prompted for the following variables:
 | `python_version` | Minimum Python version | "3.14" | "3.14" |
 | `year` | Copyright year (used in LICENSE) | Current year | "2026" |
 | `use_analytics` | Include analytics dependencies | "y" or "n" | "y" |
+| `use_agent_instructions` | Generate LLM agent files (`AGENTS.md`, `CLAUDE.md`, copilot, cursor) | "y" or "n" | "y" |
+
+## 🤖 LLM-Ready
+
+Generated projects ship agent instruction files so any coding agent
+starts with the same contract: `AGENTS.md` (canonical), `CLAUDE.md`
+(pointer), `.github/copilot-instructions.md` + `.cursor/rules/*.mdc`
+(condensations). Single verify entrypoint: `make verify`
+(`make check`: format-check + lint + type-check + test).
+
+Why cookiecutter helps with LLMs: it freezes stack, layout
+(`src/<pkg>/`, `tests/<pkg>/test_*.py`), and workflow (lint/type/test
+via make) into files the agent reads on startup. That removes the two
+biggest failure modes — guessed commands and guessed structure — so
+`make verify` means the same thing in every generated repo.
 
 ## 🛠️ Getting Started
 
@@ -247,5 +266,5 @@ Projects generated from this template include an MIT `LICENSE` file. To change i
 
 ## 🧪 Testing the Template
 
-This repo's CI (`.github/workflows/template-ci.yml`) generates a project with and without analytics, then runs `make build`, `make check_format` and `uv build` on each.
+This repo's CI (`.github/workflows/template-ci.yml`) renders all 4 combos of `use_analytics` × `use_agent_instructions`, then runs `make build`, `make check_format` and `uv build` on each.
 
